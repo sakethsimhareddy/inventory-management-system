@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} Inventory List {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Inventory List</h1>
+    <form method="GET">
+        <div class="mb-3">
+            <input type="text" name="name" class="form-control textinput" placeholder="Search by stock name">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
+    {% if object_list %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Stock Name</th>
+                    <th>Current Stock in Inventory</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in object_list %}
+                <tr>
+                    <td>{{ stock.id }}</td>
+                    <td>{{ stock.name }}</td>
+                    <td>{{ stock.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination links -->
+    <div class="pagination">
+        {% if object_list.has_previous %}
+            <a href="?page={{ object_list.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}</span>
+        {% if object_list.has_next %}
+            <a href="?page={{ object_list.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+    
+    {% else %}
+    <p>The records are empty. Please try adding some.</p>
+    {% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %} Edit Transaction {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Edit Transaction</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="from" class="form-label">From</label>
+            <input type="text" name="from" class="form-control" id="from" value="{{ transaction.source }}">
+        </div>
+        <div class="mb-3">
+            <label for="to" class="form-label">To</label>
+            <input type="text" name="to" class="form-control" id="to" value="{{ transaction.destination }}">
+        </div>
+        <div class="mb-3">
+            <label for="item" class="form-label">Item</label>
+            <input type="text" name="item" class="form-control" id="item" value="{{ transaction.item }}">
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" name="quantity" class="form-control" id="quantity" value="{{ transaction.quantity }}">
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" name="price" class="form-control" id="price" value="{{ transaction.price }}">
+        </div>
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <select name="type" class="form-control" id="type">
+                <option value="purchase" {% if transaction.type == "purchase" %}selected{% endif %}>Purchase</option>
+                <option value="sell" {% if transaction.type == "sell" %}selected{% endif %}>Sell</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" name="date" class="form-control" id="date" value="{{ transaction.date }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock content %}

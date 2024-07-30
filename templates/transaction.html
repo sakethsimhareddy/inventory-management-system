@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %} Transaction List {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Transaction List</h1>
+    <form method="GET">
+        <div class="mb-3">
+            <select name="type" class="form-control">
+                <option value="">All</option>
+                <option value="purchase">Purchase</option>
+                <option value="sell">Sell</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    
+    {% if object_list %}
+    <div class="table-responsive">
+        <table class="table">
+            <!-- Table header -->
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <!-- Table body -->
+            <tbody>
+                {% for transaction in object_list %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.source }}</td>
+                    <td>{{ transaction.destination }}</td>
+                    <td>{{ transaction.item }}</td>
+                    <td>{{ transaction.quantity }}</td>
+                    <td>{{ transaction.price }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td>
+                        <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_transaction' transaction.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination links -->
+    <div class="pagination">
+        {% if object_list.has_previous %}
+            <a href="?page={{ object_list.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span class="current">Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}</span>
+        {% if object_list.has_next %}
+            <a href="?page={{ object_list.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+    
+    {% else %}
+    <p>No transactions found. Please try adding some.</p>
+    {% endif %}
+</div>
+{% endblock content %}

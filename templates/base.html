@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Django Site{% endblock %}</title>
+    
+    {% load bootstrap5 static %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <style>
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .chart-item {
+            flex-grow: 1; /* Allow items to grow to fill available space */
+            flex-basis: calc(33.33% - 20px); /* Adjust basis to fit three items per row with spacing */
+            margin-bottom: 20px; /* Adjust spacing between chart items */
+            max-width: calc(33.33% - 20px); /* Set max width for each chart item */
+            text-align: center; /* Center align chart content */
+        }
+        
+        /* Media query for smaller screens */
+        @media (max-width: 500px) {
+            .chart-item {
+                flex-basis: calc(50% - 20px); /* Adjust basis to fit two items per row with spacing */
+                max-width: calc(50% - 20px); /* Set max width for each chart item */
+            }
+        }        
+        
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
+                <div class="position-sticky" style="height: auto;">
+                    {% block sidebar %}
+                    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 200px; height: 100vh;">
+                        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                            <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                            <span class="fs-4">Inventory management system</span>
+                        </a>
+                        <hr>
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            <li class="nav-item">
+                                <a href="{% url 'home' %}" class="nav-link text-white">
+                                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'inventory' %}" class="nav-link text-white">
+                                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
+                                    Inventory
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'transaction' %}" class="nav-link text-white">
+                                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+                                    Transaction
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'purchase' %}" class="nav-link text-white">
+                                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+                                    purchase
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'sell' %}" class="nav-link text-white">
+                                    <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+                                    sell
+                                </a>
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class="mt-auto">
+                            <div class="dropdown">
+                                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{% static '/img/profile.png' %}" alt="Profile Image" width="32" height="32" class="rounded-circle me-2">
+                                    <strong>Profile</strong>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    {% endblock %}
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    {% bootstrap_javascript %}
+</body>
+</html>
